@@ -19,39 +19,64 @@ namespace QuickBite.Forms
         {
             InitializeComponent();
         }
-
         private void WaiterForm_Load(object sender, EventArgs e)
         {
-            if (flpTables.Controls.Count < 0)
+            LoadTables();
+        }
+
+        public void LoadTables()
+        {
+            flpTables.Controls.Clear();
+
+            List<Table> tables = _tableService.GetTables();
+
+            if (tables.Count == 0)
             {
-                List<Table> tables = _tableService.GetTables();
-                foreach (var table in tables)
-                {
-                    Button tableButton = new Button();
-                    tableButton.Text = $"Table {table.Id}";
-                    tableButton.Width = 100;
-                    tableButton.Height = 50;
-                    tableButton.Tag = table;
-
-                    switch (table.Status)
-                    {
-                        case TableStatus.Available:
-                            tableButton.BackColor = Color.Green;
-                            break;
-
-                        case TableStatus.Occupied:
-                            tableButton.BackColor = Color.Red;
-                            break;
-
-                        case TableStatus.Reserved:
-                            tableButton.BackColor = Color.Yellow;
-                            break;
-                    }
-                    // Add click event handler for the button
-                    tableButton.Click += btnAddTable_Click;
-                    flpTables.Controls.Add(tableButton);
-                }
+                MessageBox.Show("No hay mesas disponibles.");
+                return;
             }
+
+            foreach (var table in tables)
+            {
+                Button tableButton = new Button();
+                tableButton.Text = $"Mesa #{table.Id}";
+                tableButton.Width = 130;
+                tableButton.Height = 70;
+                tableButton.Margin = new Padding(6);
+                tableButton.Tag = table;
+                tableButton.FlatStyle = FlatStyle.Flat;
+                tableButton.FlatAppearance.BorderSize = 0;
+                tableButton.Cursor = Cursors.Hand;
+
+                switch (table.Status)
+                {
+                    case TableStatus.Available:
+                        tableButton.BackColor = Color.FromArgb(210, 240, 220);
+                        tableButton.ForeColor = Color.FromArgb(20, 100, 50);
+                        break;
+                    case TableStatus.Occupied:
+                        tableButton.BackColor = Color.FromArgb(245, 210, 210);
+                        tableButton.ForeColor = Color.FromArgb(150, 30, 30);
+                        break;
+                    case TableStatus.Reserved:
+                        tableButton.BackColor = Color.FromArgb(250, 235, 200);
+                        tableButton.ForeColor = Color.FromArgb(140, 100, 10);
+                        break;
+                }
+
+                tableButton.Click += flpTables_Click;
+                flpTables.Controls.Add(tableButton);
+            }
+        }
+        private void flpTables_Click(object sender, EventArgs e)
+        {
+            if (sender is not Button tableButton || tableButton.Tag is not Table selectedTable)
+            {
+                return;
+            }
+
+            using var frm = new OrderModalForm();
+            var result = frm.ShowDialog();
         }
 
         private void btnAddTable_Click(object sender, EventArgs e)
@@ -62,6 +87,8 @@ namespace QuickBite.Forms
             };
 
             _tableService.AddTable(newTable);
+            LoadTables();
         }
+
     }
 }

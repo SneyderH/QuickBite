@@ -13,7 +13,7 @@ namespace QuickBite.Services
         public List<Table> GetTables()
         {
             using var context = new QuickBiteContext();
-            return context.Tables.OrderBy(p => p.Status).ToList();
+            return context.Tables.OrderBy(t => t.Status).ToList();
 
         }
 
@@ -21,7 +21,7 @@ namespace QuickBite.Services
         {
             using var context = new QuickBiteContext();
             context.Tables.Add(tables);
-            //context.SaveChanges();
+            context.SaveChanges();
         }
     }
 }

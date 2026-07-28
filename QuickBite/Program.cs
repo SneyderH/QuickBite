@@ -1,3 +1,5 @@
+using QuickBite.Forms;
+
 namespace QuickBite
 {
     internal static class Program

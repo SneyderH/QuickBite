@@ -11,6 +11,7 @@ namespace QuickBite.Models
         public int Id { get; set; }
         public int Quantity { get; set; }
         public string? Notes { get; set; }
+        public decimal UnitPrice { get; set; }
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         public int OrderId { get; set; }

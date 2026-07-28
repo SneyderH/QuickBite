@@ -43,6 +43,7 @@
             txtPassword.Name = "txtPassword";
             txtPassword.Size = new Size(168, 36);
             txtPassword.TabIndex = 1;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // lblUsername
             // 
@@ -71,6 +72,7 @@
             btnLogin.TabIndex = 4;
             btnLogin.Text = "Ingresar";
             btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.Click += btnLogin_Click;
             // 
             // panel1
             // 
