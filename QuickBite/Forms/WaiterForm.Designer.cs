@@ -125,6 +125,7 @@
             Margin = new Padding(5, 4, 5, 4);
             Name = "WaiterForm";
             Text = "WaiterForm";
+            FormClosed += WaiterForm_FormClosed;
             Load += WaiterForm_Load;
             ((System.ComponentModel.ISupportInitialize)dgvOrderProgress).EndInit();
             pnlTablesHeader.ResumeLayout(false);

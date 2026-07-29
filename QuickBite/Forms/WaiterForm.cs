@@ -90,5 +90,10 @@ namespace QuickBite.Forms
             LoadTables();
         }
 
+        private void WaiterForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            CurrentSession.CurrentUser = null;
+            Application.Exit();
+        }
     }
 }
